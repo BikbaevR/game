@@ -11,9 +11,9 @@ import (
 const TileSize = 16
 
 var tileColors = [...]color.RGBA{
-	world.TileSand:  color.RGBA{R: 207, G: 212, B: 71, A: 255},
-	world.TileGrass: color.RGBA{R: 71, G: 212, B: 118, A: 255},
-	world.TileWater: color.RGBA{R: 71, G: 174, B: 212, A: 255},
+	world.TileSand:  {R: 207, G: 212, B: 71, A: 255},
+	world.TileGrass: {R: 71, G: 212, B: 118, A: 255},
+	world.TileWater: {R: 71, G: 174, B: 212, A: 255},
 }
 
 func DrawGrid(screen *ebiten.Image, grid *world.Grid) {

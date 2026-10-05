@@ -15,10 +15,10 @@ func main() {
 
 	grid := world.NewGrid(20, 15)
 
-	for i := 0; i <= 19; i++ {
-		for j := 0; j <= 14; j++ {
+	for x := 0; x < grid.Width(); x++ {
+		for y := 0; y < grid.Height(); y++ {
 			tile := world.Tile{Type: getRandomTile()}
-			grid.Set(i, j, tile)
+			grid.Set(x, y, tile)
 		}
 	}
 

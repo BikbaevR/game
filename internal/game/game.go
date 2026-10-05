@@ -21,6 +21,7 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 	render.DrawGrid(screen, g.world)
 }
+
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 320, 240
+	return g.world.Width() * render.TileSize, g.world.Height() * render.TileSize
 }

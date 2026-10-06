@@ -12,6 +12,7 @@ import (
 func main() {
 	ebiten.SetWindowSize(640, 480)
 	ebiten.SetWindowTitle("Game")
+	//ebiten.SetWindowResizingMode(ebiten.WindowResizingModeEnabled)
 
 	grid := world.NewGrid(20, 15)
 

@@ -18,7 +18,7 @@ func New(w *world.Grid, p *player.Player) *Game {
 
 func (g *Game) Update() error {
 	cmd := readMoveCommand(g.player.ID)
-	g.player.Apply(cmd)
+	g.player.Apply(cmd, g.world)
 	return nil
 }
 

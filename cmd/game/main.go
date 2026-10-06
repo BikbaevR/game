@@ -28,9 +28,14 @@ func main() {
 		}
 	}
 
-	worldWidth := grid.Width() * world.TileSize
-	worldHeight := grid.Height() * world.TileSize
-	p := player.New(1, playerName, float64(worldWidth)/2, float64(worldHeight)/2, playerSpeed)
+	// Игрок появляется в центре клетки посередине карты; клетку делаем травой,
+	// чтобы он не оказался внутри воды.
+	spawnTileX, spawnTileY := grid.Width()/2, grid.Height()/2
+	grid.Set(spawnTileX, spawnTileY, world.Tile{Type: world.TileGrass})
+
+	spawnX := float64(spawnTileX*world.TileSize + world.TileSize/2)
+	spawnY := float64(spawnTileY*world.TileSize + world.TileSize/2)
+	p := player.New(1, playerName, spawnX, spawnY, playerSpeed)
 
 	g := game.New(grid, p)
 	if err := ebiten.RunGame(g); err != nil {
@@ -45,6 +50,5 @@ func getRandomTile() world.TileType {
 	} else if randomIndex == 1 {
 		return world.TileWater
 	}
-
 	return world.TileSand
 }

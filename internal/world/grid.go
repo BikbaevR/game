@@ -1,5 +1,7 @@
 package world
 
+import "math"
+
 type Grid struct {
 	width, height int
 	tiles         []Tile
@@ -42,4 +44,9 @@ func (g *Grid) InBounds(x, y int) bool {
 
 func (g *Grid) index(x, y int) int {
 	return y*g.width + x
+}
+
+func (g *Grid) WalkableAt(x, y float64) bool {
+	tile, ok := g.Get(int(math.Floor(x/TileSize)), int(math.Floor(y/TileSize)))
+	return ok && tile.Type.Info().Walkable
 }

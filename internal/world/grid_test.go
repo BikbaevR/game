@@ -67,3 +67,38 @@ func TestGrid_OutOfBounds(t *testing.T) {
 		}
 	}
 }
+
+func TestGrid_WalkableAt(t *testing.T) {
+	// Сетка 3x3: везде трава, кроме воды в клетке (1, 1).
+	grid := NewGrid(3, 3)
+	for x := range 3 {
+		for y := range 3 {
+			grid.Set(x, y, Tile{Type: TileGrass})
+		}
+	}
+	grid.Set(1, 1, Tile{Type: TileWater})
+
+	cases := []struct {
+		name string
+		x, y float64
+		want bool
+	}{
+		{name: "трава в центре клетки", x: 0.5 * TileSize, y: 0.5 * TileSize, want: true},
+		{name: "вода в центре клетки", x: 1.5 * TileSize, y: 1.5 * TileSize, want: false},
+		{name: "последний пиксель травы перед водой", x: 1*TileSize - 0.1, y: 1.5 * TileSize, want: true},
+		{name: "первый пиксель воды (граница клеток)", x: 1 * TileSize, y: 1.5 * TileSize, want: false},
+		{name: "чуть левее карты", x: -0.5, y: 1.5 * TileSize, want: false},
+		{name: "чуть выше карты", x: 1.5 * TileSize, y: -0.5, want: false},
+		{name: "правее карты (граница)", x: 3 * TileSize, y: 0.5 * TileSize, want: false},
+		{name: "ниже карты (граница)", x: 0.5 * TileSize, y: 3 * TileSize, want: false},
+		{name: "последний пиксель карты", x: 3*TileSize - 0.1, y: 3*TileSize - 0.1, want: true},
+	}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			if got := grid.WalkableAt(c.x, c.y); got != c.want {
+				t.Errorf("WalkableAt(%v, %v) = %v, ожидали %v", c.x, c.y, got, c.want)
+			}
+		})
+	}
+}

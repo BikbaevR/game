@@ -5,14 +5,19 @@ import (
 	"math/rand"
 
 	"github.com/BikbaevR/game/internal/game"
+	"github.com/BikbaevR/game/internal/player"
 	"github.com/BikbaevR/game/internal/world"
 	"github.com/hajimehoshi/ebiten/v2"
+)
+
+const (
+	playerName  = "test"
+	playerSpeed = 1.2 // пикселей за тик
 )
 
 func main() {
 	ebiten.SetWindowSize(640, 480)
 	ebiten.SetWindowTitle("Game")
-	//ebiten.SetWindowResizingMode(ebiten.WindowResizingModeEnabled)
 
 	grid := world.NewGrid(20, 15)
 
@@ -23,8 +28,12 @@ func main() {
 		}
 	}
 
-	worldGrid := game.New(grid)
-	if err := ebiten.RunGame(worldGrid); err != nil {
+	worldWidth := grid.Width() * world.TileSize
+	worldHeight := grid.Height() * world.TileSize
+	p := player.New(1, playerName, float64(worldWidth)/2, float64(worldHeight)/2, playerSpeed)
+
+	g := game.New(grid, p)
+	if err := ebiten.RunGame(g); err != nil {
 		log.Fatal(err)
 	}
 }
